@@ -1,0 +1,126 @@
+[gd_scene load_steps=11 format=3 uid="uid://bjk4pvsif0a3y"]
+
+[ext_resource type="Script" uid="uid://cb2xf61w0tb16" path="res://scripts/main.gd" id="1_jyhfs"]
+[ext_resource type="Theme" uid="uid://c17gjoy4jlmj2" path="res://themes/command_line.tres" id="1_sugp2"]
+[ext_resource type="FontFile" uid="uid://c7o2pcusg538i" path="res://themes/leaguespartan-bold.ttf" id="2_jyhfs"]
+
+[sub_resource type="Gradient" id="Gradient_sgp6g"]
+offsets = PackedFloat32Array(0.013333334, 1)
+colors = PackedColorArray(0.686225, 0.29702285, 0.31335965, 1, 0.7904594, 0.45093632, 0.2305688, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_o5qli"]
+gradient = SubResource("Gradient_sgp6g")
+width = 10
+
+[sub_resource type="Gradient" id="Gradient_o5qli"]
+colors = PackedColorArray(0.8156863, 1, 0, 1, 0.34509805, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sugp2"]
+gradient = SubResource("Gradient_o5qli")
+width = 10
+
+[sub_resource type="Gradient" id="Gradient_0wfyh"]
+colors = PackedColorArray(0.67344403, 0.6846462, 1.1551381e-06, 1, 5.3425133e-06, 0.69864374, 7.70092e-07, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jyhfs"]
+gradient = SubResource("Gradient_0wfyh")
+width = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
+bg_color = Color(0, 0, 0, 0.11764706)
+
+[node name="root" type="Node2D"]
+script = ExtResource("1_jyhfs")
+
+[node name="ui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="bg" type="TextureRect" parent="ui"]
+z_index = -20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_o5qli")
+
+[node name="top_bar" type="TextureRect" parent="ui"]
+visible = false
+z_index = 5
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 100.0
+texture = SubResource("GradientTexture1D_sugp2")
+
+[node name="top_bar_shadow" type="TextureRect" parent="ui"]
+visible = false
+z_index = 4
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 111.0
+texture = SubResource("GradientTexture1D_jyhfs")
+
+[node name="command_line" type="LineEdit" parent="ui"]
+z_index = 3
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -89.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("1_sugp2")
+theme_override_fonts/font = ExtResource("2_jyhfs")
+theme_override_font_sizes/font_size = 60
+placeholder_text = "cmds: add, remove, make, desksize, showlist, hide"
+keep_editing_on_text_submit = true
+deselect_on_focus_loss_enabled = false
+caret_blink = true
+caret_blink_interval = 0.4
+
+[node name="list_label" type="Label" parent="ui"]
+layout_mode = 0
+offset_right = 1.0
+offset_bottom = 1000.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.15294118)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("2_jyhfs")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_sugp2")
+
+[node name="debug" type="Label" parent="ui"]
+visible = false
+layout_mode = 1
+offset_top = 945.0
+offset_right = 111.0
+offset_bottom = 983.0
+theme_override_colors/font_color = Color(0.90535754, 0.57254076, 0.5688208, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.15294118)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_outline_size = 2
+theme_override_fonts/font = ExtResource("2_jyhfs")
+theme_override_font_sizes/font_size = 30
+text = "Debug: "
+
+[node name="debug_timer" type="Timer" parent="ui/debug"]
+wait_time = 6.0
+one_shot = true
+
+[node name="desks" type="Control" parent="."]
+z_index = -2
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="text_submitted" from="ui/command_line" to="." method="_on_command_line_text_submitted"]
+[connection signal="timeout" from="ui/debug/debug_timer" to="." method="_on_debug_timer_timeout"]
