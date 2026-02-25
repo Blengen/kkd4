@@ -1,8 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bjk4pvsif0a3y"]
+[gd_scene format=3 uid="uid://bjk4pvsif0a3y"]
 
 [ext_resource type="Script" uid="uid://cb2xf61w0tb16" path="res://scripts/main.gd" id="1_jyhfs"]
 [ext_resource type="Theme" uid="uid://c17gjoy4jlmj2" path="res://themes/command_line.tres" id="1_sugp2"]
 [ext_resource type="FontFile" uid="uid://c7o2pcusg538i" path="res://themes/leaguespartan-bold.ttf" id="2_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://bi3ll1rtrd7e8" path="res://scenes/button.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://c1rsvf838xwp8" path="res://scenes/save_data.gd" id="5_tbgi4"]
 
 [sub_resource type="Gradient" id="Gradient_sgp6g"]
 offsets = PackedFloat32Array(0.013333334, 1)
@@ -29,46 +31,124 @@ width = 10
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
 bg_color = Color(0, 0, 0, 0.11764706)
 
-[node name="root" type="Node2D"]
+[node name="root" type="Node2D" unique_id=300354581]
 script = ExtResource("1_jyhfs")
 
-[node name="ui" type="Control" parent="."]
+[node name="ui" type="Control" parent="." unique_id=1134030313]
+z_as_relative = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="bg" type="TextureRect" parent="ui"]
-z_index = -20
+[node name="buttons" type="Control" parent="ui" unique_id=590278165]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("GradientTexture1D_o5qli")
+mouse_filter = 2
 
-[node name="top_bar" type="TextureRect" parent="ui"]
-visible = false
+[node name="buttons_left" type="HBoxContainer" parent="ui/buttons" unique_id=1659752888]
 z_index = 5
+z_as_relative = false
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 100.0
+mouse_filter = 2
+
+[node name="add" parent="ui/buttons/buttons_left" unique_id=2029824005 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Add "
+
+[node name="remove" parent="ui/buttons/buttons_left" unique_id=1577658707 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Remove "
+
+[node name="generate" parent="ui/buttons/buttons_left" unique_id=1871320775 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Generate "
+
+[node name="buttons_middle" type="HBoxContainer" parent="ui/buttons" unique_id=89572666]
+z_index = 5
+z_as_relative = false
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 100.0
+mouse_filter = 2
+alignment = 1
+
+[node name="hidden" parent="ui/buttons/buttons_middle" unique_id=1658889684 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Hidden (off) "
+
+[node name="show_list" parent="ui/buttons/buttons_middle" unique_id=1385539540 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Show List (on) "
+
+[node name="desk_size" parent="ui/buttons/buttons_middle" unique_id=451993415 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Desk Size "
+
+[node name="buttons_right" type="HBoxContainer" parent="ui/buttons" unique_id=816971152]
+z_index = 5
+z_as_relative = false
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 100.0
+mouse_filter = 2
+alignment = 2
+
+[node name="save_as" parent="ui/buttons/buttons_right" unique_id=1659563552 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Save As "
+
+[node name="save" parent="ui/buttons/buttons_right" unique_id=908315763 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Save "
+
+[node name="load" parent="ui/buttons/buttons_right" unique_id=564252592 instance=ExtResource("4_jyhfs")]
+layout_mode = 2
+text = " Load "
+
+[node name="bg" type="TextureRect" parent="ui" unique_id=697006251]
+z_index = -20
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_o5qli")
+
+[node name="top_bar" type="TextureRect" parent="ui" unique_id=81442918]
+z_index = 5
+z_as_relative = false
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 100.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_sugp2")
 
-[node name="top_bar_shadow" type="TextureRect" parent="ui"]
-visible = false
+[node name="top_bar_shadow" type="TextureRect" parent="ui" unique_id=1182207227]
 z_index = 4
+z_as_relative = false
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 111.0
+mouse_filter = 2
 texture = SubResource("GradientTexture1D_jyhfs")
 
-[node name="command_line" type="LineEdit" parent="ui"]
+[node name="command_line" type="LineEdit" parent="ui" unique_id=1366376217]
 z_index = 3
+z_as_relative = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -86,10 +166,16 @@ deselect_on_focus_loss_enabled = false
 caret_blink = true
 caret_blink_interval = 0.4
 
-[node name="list_label" type="Label" parent="ui"]
+[node name="list_scroll_container" type="ScrollContainer" parent="ui" unique_id=636523254]
 layout_mode = 0
-offset_right = 1.0
-offset_bottom = 1000.0
+offset_top = 111.0
+offset_right = 42.0
+offset_bottom = 989.0
+horizontal_scroll_mode = 0
+
+[node name="list_label" type="Label" parent="ui/list_scroll_container" unique_id=859706836]
+z_as_relative = false
+layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.15294118)
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/shadow_outline_size = 2
@@ -97,8 +183,9 @@ theme_override_fonts/font = ExtResource("2_jyhfs")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_sugp2")
 
-[node name="debug" type="Label" parent="ui"]
+[node name="debug" type="Label" parent="ui" unique_id=1306342112]
 visible = false
+z_as_relative = false
 layout_mode = 1
 offset_top = 945.0
 offset_right = 111.0
@@ -111,16 +198,34 @@ theme_override_fonts/font = ExtResource("2_jyhfs")
 theme_override_font_sizes/font_size = 30
 text = "Debug: "
 
-[node name="debug_timer" type="Timer" parent="ui/debug"]
+[node name="debug_timer" type="Timer" parent="ui/debug" unique_id=332296718]
 wait_time = 6.0
 one_shot = true
 
-[node name="desks" type="Control" parent="."]
+[node name="desks" type="Control" parent="." unique_id=606237541]
 z_index = -2
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("5_tbgi4")
 
-[connection signal="text_submitted" from="ui/command_line" to="." method="_on_command_line_text_submitted"]
+[node name="save_dialog" type="FileDialog" parent="." unique_id=221144228]
+oversampling_override = 1.0
+title = "Open a File"
+position = Vector2i(0, 36)
+file_mode = 0
+filters = PackedStringArray("*kkd4")
+
+[node name="load_dialog" type="FileDialog" parent="." unique_id=193634816]
+oversampling_override = 1.0
+
+[connection signal="pressed" from="ui/buttons/buttons_left/add" to="." method="_on_add_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_left/remove" to="." method="_on_remove_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_left/generate" to="." method="_on_generate_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_middle/hidden" to="." method="_on_hidden_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_middle/show_list" to="." method="_on_show_list_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_middle/desk_size" to="." method="_on_desk_size_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_right/save_as" to="." method="_on_save_as_pressed"]
+[connection signal="text_submitted" from="ui/command_line" to="." method="do_command"]
 [connection signal="timeout" from="ui/debug/debug_timer" to="." method="_on_debug_timer_timeout"]

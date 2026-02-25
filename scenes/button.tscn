@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://bi3ll1rtrd7e8"]
+
+[ext_resource type="FontFile" uid="uid://c7o2pcusg538i" path="res://themes/leaguespartan-bold.ttf" id="1_mi6dp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mi6dp"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.175, 0.25, 0.175, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 0)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhj8v"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1764706, 0.2509804, 0.1764706, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 0)
+corner_detail = 1
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3q610"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.24499999, 0.35, 0.24499999, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 0)
+corner_detail = 1
+anti_aliasing = false
+
+[node name="button" type="Button" unique_id=2029824005]
+z_index = 6
+z_as_relative = false
+custom_minimum_size = Vector2(0, 100)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.19607843)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("1_mi6dp")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_mi6dp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rhj8v")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3q610")
+text = " Text "

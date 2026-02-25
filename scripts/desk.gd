@@ -1,12 +1,13 @@
-extends Control
+extends TextureButton
 
-#@onready var button = $button
-@onready var text_size = $button/text_pivot
-@onready var desk_text = $button/text_pivot/text
+@onready var desk_text = $text
 
 var clicked = false
 var hidden_mode: bool = false
-	
+
+func _ready() -> void:
+	owner = get_parent()
+
 func _input(event: InputEvent) -> void:
 	if clicked and event is InputEventMouseMotion and Input.is_action_pressed("lmb"):
 		position.x += event.relative.x
@@ -15,8 +16,8 @@ func _input(event: InputEvent) -> void:
 	clamp_desk_pos()
 
 func clamp_desk_pos():
-	position.x = clamp(position.x, -30.0, 1830)
-	position.y = clamp(position.y, 80.0, 890.0)
+	position.x = clamp(position.x, -30.0, 1700)
+	position.y = clamp(position.y, 40.0, 800.0)
 	pass
 
 
