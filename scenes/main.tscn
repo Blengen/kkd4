@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://c17gjoy4jlmj2" path="res://themes/command_line.tres" id="1_sugp2"]
 [ext_resource type="FontFile" uid="uid://c7o2pcusg538i" path="res://themes/leaguespartan-bold.ttf" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bi3ll1rtrd7e8" path="res://scenes/button.tscn" id="4_jyhfs"]
-[ext_resource type="Script" uid="uid://c1rsvf838xwp8" path="res://scenes/save_data.gd" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://c1rsvf838xwp8" path="res://save_data.gd" id="5_tbgi4"]
 
 [sub_resource type="Gradient" id="Gradient_sgp6g"]
 offsets = PackedFloat32Array(0.013333334, 1)
@@ -93,7 +93,7 @@ text = " Show List (on) "
 
 [node name="desk_size" parent="ui/buttons/buttons_middle" unique_id=451993415 instance=ExtResource("4_jyhfs")]
 layout_mode = 2
-text = " Desk Size "
+text = " Desk Size: 0.75 "
 
 [node name="buttons_right" type="HBoxContainer" parent="ui/buttons" unique_id=816971152]
 z_index = 5
@@ -212,13 +212,20 @@ script = ExtResource("5_tbgi4")
 
 [node name="save_dialog" type="FileDialog" parent="." unique_id=221144228]
 oversampling_override = 1.0
-title = "Open a File"
 position = Vector2i(0, 36)
-file_mode = 0
-filters = PackedStringArray("*kkd4")
+filters = PackedStringArray("kkd4")
+use_native_dialog = true
 
 [node name="load_dialog" type="FileDialog" parent="." unique_id=193634816]
 oversampling_override = 1.0
+title = "Open a File"
+file_mode = 0
+filters = PackedStringArray("kkd4")
+use_native_dialog = true
+
+[node name="load_timer" type="Timer" parent="load_dialog" unique_id=420029243]
+wait_time = 0.05
+one_shot = true
 
 [connection signal="pressed" from="ui/buttons/buttons_left/add" to="." method="_on_add_pressed"]
 [connection signal="pressed" from="ui/buttons/buttons_left/remove" to="." method="_on_remove_pressed"]
@@ -227,5 +234,11 @@ oversampling_override = 1.0
 [connection signal="pressed" from="ui/buttons/buttons_middle/show_list" to="." method="_on_show_list_pressed"]
 [connection signal="pressed" from="ui/buttons/buttons_middle/desk_size" to="." method="_on_desk_size_pressed"]
 [connection signal="pressed" from="ui/buttons/buttons_right/save_as" to="." method="_on_save_as_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_right/save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="ui/buttons/buttons_right/load" to="." method="_on_load_pressed"]
 [connection signal="text_submitted" from="ui/command_line" to="." method="do_command"]
 [connection signal="timeout" from="ui/debug/debug_timer" to="." method="_on_debug_timer_timeout"]
+[connection signal="canceled" from="save_dialog" to="." method="_on_save_dialog_canceled"]
+[connection signal="file_selected" from="save_dialog" to="." method="_on_save_dialog_file_selected"]
+[connection signal="file_selected" from="load_dialog" to="." method="_on_load_dialog_file_selected"]
+[connection signal="timeout" from="load_dialog/load_timer" to="." method="_on_load_timer_timeout"]

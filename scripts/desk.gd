@@ -7,6 +7,9 @@ var hidden_mode: bool = false
 
 func _ready() -> void:
 	owner = get_parent()
+	
+	if not button_down.is_connected(_on_button_down): button_down.connect(_on_button_down)
+	if not button_up.is_connected(_on_button_up): button_up.connect(_on_button_up)
 
 func _input(event: InputEvent) -> void:
 	if clicked and event is InputEventMouseMotion and Input.is_action_pressed("lmb"):

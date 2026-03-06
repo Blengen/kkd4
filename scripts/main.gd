@@ -7,7 +7,10 @@ extends Node2D
 var people: Array = []
 var desk_node: PackedScene = preload("res://scenes/desk.tscn")
 var desk_size = Vector2(0.75, 0.75)
-var hidden_mode = false
+var hidden_mode: bool = false
+
+var names_backup: Array[String] = []
+var save_path: String = ""
 
 func _ready() -> void:
 	cline.grab_focus()
@@ -39,7 +42,7 @@ func do_command(command: String) -> void:
 		
 		#cline.text = "remove "
 		
-		var person = command.substr(7)
+		var person: Variant = command.substr(7)
 		
 		if person.is_valid_int():
 			if people.has(person): 
@@ -95,7 +98,7 @@ func do_command(command: String) -> void:
 			for child in desks.get_children(): child.scale = desk_size
 		else: message("Value is not a number")
 		
-		$ui/buttons/buttons_middle/desk_size.text = "Desk size: " + str(snapped(value, 0.01))
+		$ui/buttons/buttons_middle/desk_size.text = " Desk size: " + str(snapped(value, 0.01)) + " "
 		
 		
 	elif command_lower.begins_with("make"):
@@ -149,12 +152,7 @@ func do_command(command: String) -> void:
 			message("bromo sapien tryna save an empty map")
 			return
 		
-		var names_backup: Array[String] = []
-		for child in desks: names_backup.append(child.desk_text.text) # Text will be deleted temporarily
-		for child in desks: child.desk_text.text = "" # IDK why it's green like that
-
-		$desks.people = people
-		$desks.desk_size = desk_size
+		backup_names()
 		
 		$save_dialog.show()
 
@@ -162,7 +160,15 @@ func do_command(command: String) -> void:
 		
 		
 	update_label()
-			
+
+func backup_names() -> void:
+	names_backup = []
+	for child in desks.get_children(): names_backup.append(child.desk_text.text) # Text will be deleted temporarily
+	for child in desks.get_children(): child.desk_text.text = ""
+
+	$desks.people = people
+	$desks.desk_size = desk_size
+		
 func message(value):
 	print(value)
 	$ui/debug.text = "Debug: " + value
@@ -215,3 +221,69 @@ func _on_show_list_pressed() -> void: do_command("showlist noclear")
 
 
 func _on_save_as_pressed() -> void: do_command("saveas noclear")
+func _on_save_pressed() -> void:
+	if save_path == "": message("No file to overwrite. Use \"Save As\"")
+	else:
+		backup_names()
+		_on_save_dialog_file_selected(save_path)
+
+func _on_save_dialog_file_selected(path: String) -> void:
+	
+	if path.ends_with(".tscn"): path.trim_suffix(".tscn")
+	save_path = path
+	
+	for count in range(4): # Make sure no extensions are present
+		path = path.trim_suffix("tscn")	
+		path = path.trim_suffix(".tscn")
+		path = path.trim_suffix("kd4")
+		path = path.trim_suffix(".kd4")
+		path = path.trim_suffix("kkd4")
+		path = path.trim_suffix(".kkd4")
+	path = path.trim_suffix(".") # Remove period if it exists
+	
+	
+	path = path.trim_suffix(".kkd4")
+	path += ".kkd4.tscn"
+	
+	var packed: PackedScene = PackedScene.new()
+	var pack_err: Error = packed.pack(desks)
+	if pack_err == OK:
+		var save_err: Error = ResourceSaver.save(packed, path)
+		if save_err != OK: message("Failed to save: " + str(error_string(save_err)))
+		else:
+			var rename_err: Error = DirAccess.rename_absolute(path, path.trim_suffix(".tscn"))
+			if rename_err != OK: message("Failed to save: " + str(error_string(save_err)))
+	
+	recover_backup()
+	
+	
+func _on_save_dialog_canceled() -> void: recover_backup()
+
+func recover_backup():
+	var index: int = 0
+	for child in desks.get_children():
+		child.desk_text.text = names_backup[index]
+		index += 1
+
+func _on_load_pressed() -> void: $load_dialog.show()
+
+func _on_load_dialog_file_selected(path: String) -> void:
+	if not path.ends_with(".kkd4"):
+		message("Not a .kkd4 file.")
+		return
+	
+	DirAccess.rename_absolute(path, path + ".tscn")
+	$desks.queue_free()
+	save_path = path + ".tscn"
+	$load_dialog/load_timer.start()
+
+
+func _on_load_timer_timeout() -> void:
+	add_child(load(save_path).instantiate())
+	var rename_err: Error = DirAccess.rename_absolute(save_path, save_path.trim_suffix(".tscn"))
+	if rename_err != OK: message("Unable to rename the file back. Please remove \".tscn\" manually")
+	else: save_path.trim_suffix(".tscn")
+	
+	desks = $desks
+	people = desks.people
+	desk_size = desks.desk_size
