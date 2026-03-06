@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://c17gjoy4jlmj2" path="res://themes/command_line.tres" id="1_sugp2"]
 [ext_resource type="FontFile" uid="uid://c7o2pcusg538i" path="res://themes/leaguespartan-bold.ttf" id="2_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://bi3ll1rtrd7e8" path="res://scenes/button.tscn" id="4_jyhfs"]
-[ext_resource type="Script" uid="uid://c1rsvf838xwp8" path="res://save_data.gd" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://c1rsvf838xwp8" path="res://scripts/save_data.gd" id="5_tbgi4"]
 
 [sub_resource type="Gradient" id="Gradient_sgp6g"]
 offsets = PackedFloat32Array(0.013333334, 1)
@@ -106,10 +106,12 @@ alignment = 2
 
 [node name="save_as" parent="ui/buttons/buttons_right" unique_id=1659563552 instance=ExtResource("4_jyhfs")]
 layout_mode = 2
+disabled = true
 text = " Save As "
 
 [node name="save" parent="ui/buttons/buttons_right" unique_id=908315763 instance=ExtResource("4_jyhfs")]
 layout_mode = 2
+disabled = true
 text = " Save "
 
 [node name="load" parent="ui/buttons/buttons_right" unique_id=564252592 instance=ExtResource("4_jyhfs")]
@@ -213,15 +215,24 @@ script = ExtResource("5_tbgi4")
 [node name="save_dialog" type="FileDialog" parent="." unique_id=221144228]
 oversampling_override = 1.0
 position = Vector2i(0, 36)
-filters = PackedStringArray("kkd4")
-use_native_dialog = true
+size = Vector2i(1920, 1008)
+maximize_disabled = false
+theme_override_colors/folder_icon_color = Color(1, 1, 0.6745098, 1)
+theme_override_colors/file_icon_color = Color(0.6431373, 1, 0.99607843, 1)
+access = 2
+filters = PackedStringArray("*.kkd4")
 
 [node name="load_dialog" type="FileDialog" parent="." unique_id=193634816]
 oversampling_override = 1.0
 title = "Open a File"
+position = Vector2i(0, 36)
+size = Vector2i(1920, 1008)
+maximize_disabled = false
+theme_override_colors/folder_icon_color = Color(1, 1, 0.6745098, 1)
+theme_override_colors/file_icon_color = Color(0.6431373, 1, 0.99607843, 1)
 file_mode = 0
-filters = PackedStringArray("kkd4")
-use_native_dialog = true
+access = 2
+filters = PackedStringArray("*.kkd4")
 
 [node name="load_timer" type="Timer" parent="load_dialog" unique_id=420029243]
 wait_time = 0.05
@@ -239,6 +250,4 @@ one_shot = true
 [connection signal="text_submitted" from="ui/command_line" to="." method="do_command"]
 [connection signal="timeout" from="ui/debug/debug_timer" to="." method="_on_debug_timer_timeout"]
 [connection signal="canceled" from="save_dialog" to="." method="_on_save_dialog_canceled"]
-[connection signal="file_selected" from="save_dialog" to="." method="_on_save_dialog_file_selected"]
-[connection signal="file_selected" from="load_dialog" to="." method="_on_load_dialog_file_selected"]
 [connection signal="timeout" from="load_dialog/load_timer" to="." method="_on_load_timer_timeout"]

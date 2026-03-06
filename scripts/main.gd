@@ -15,6 +15,11 @@ var save_path: String = ""
 func _ready() -> void:
 	cline.grab_focus()
 
+	# Manually connect load dialog signal since Godot was being stupid in the export lol
+	$load_dialog.file_selected.connect(_on_load_dialog_file_selected)
+	# Also connect save dialog to be safe (though it already works)
+	$save_dialog.file_selected.connect(_on_save_dialog_file_selected)
+
 # Command line parser
 func do_command(command: String) -> void:
 	var command_lower = command.to_lower() # Make Lowercase
@@ -154,7 +159,7 @@ func do_command(command: String) -> void:
 		
 		backup_names()
 		
-		$save_dialog.show()
+		$save_dialog.popup_centered()
 
 	else: message("Unknown command, check your spelling.")
 		
@@ -232,8 +237,9 @@ func _on_save_dialog_file_selected(path: String) -> void:
 	if path.ends_with(".tscn"): path.trim_suffix(".tscn")
 	save_path = path
 	
-	for count in range(4): # Make sure no extensions are present
-		path = path.trim_suffix("tscn")	
+	for count in range(4): # Make sure no extensions are present (how did we get here lol). Messy as hell but it works ... I guess.
+		path = path.trim_suffix(".k")
+		path = path.trim_suffix("tscn")
 		path = path.trim_suffix(".tscn")
 		path = path.trim_suffix("kd4")
 		path = path.trim_suffix(".kd4")
@@ -265,7 +271,10 @@ func recover_backup():
 		child.desk_text.text = names_backup[index]
 		index += 1
 
-func _on_load_pressed() -> void: $load_dialog.show()
+func _on_load_pressed() -> void:
+	$load_dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	$load_dialog.popup_centered()
+
 
 func _on_load_dialog_file_selected(path: String) -> void:
 	if not path.ends_with(".kkd4"):
@@ -277,7 +286,6 @@ func _on_load_dialog_file_selected(path: String) -> void:
 	save_path = path + ".tscn"
 	$load_dialog/load_timer.start()
 
-
 func _on_load_timer_timeout() -> void:
 	add_child(load(save_path).instantiate())
 	var rename_err: Error = DirAccess.rename_absolute(save_path, save_path.trim_suffix(".tscn"))
@@ -287,3 +295,6 @@ func _on_load_timer_timeout() -> void:
 	desks = $desks
 	people = desks.people
 	desk_size = desks.desk_size
+	$ui/buttons/buttons_middle/desk_size.text = " Desk size: " + str(snapped(desk_size.x, 0.01)) + " "
+	update_label()
+	message("Load complete!")

@@ -31,6 +31,10 @@ window/stretch/mode="canvas_items"
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/IgnoreFolders/plugin.cfg")
+
 [input]
 
 lmb={
@@ -47,3 +51,4 @@ common/physics_ticks_per_second=8
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
