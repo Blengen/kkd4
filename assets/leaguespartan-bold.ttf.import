@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://c7o2pcusg538i"
-path="res://.godot/imported/leaguespartan-bold.ttf-be3fb2e3f5c5dcf5ca8570743fc15cdd.fontdata"
+path="res://.godot/imported/leaguespartan-bold.ttf-acb9954b872d2e87dd8edd0691b5bc0e.fontdata"
 
 [deps]
 
-source_file="res://themes/leaguespartan-bold.ttf"
-dest_files=["res://.godot/imported/leaguespartan-bold.ttf-be3fb2e3f5c5dcf5ca8570743fc15cdd.fontdata"]
+source_file="res://assets/leaguespartan-bold.ttf"
+dest_files=["res://.godot/imported/leaguespartan-bold.ttf-acb9954b872d2e87dd8edd0691b5bc0e.fontdata"]
 
 [params]
 

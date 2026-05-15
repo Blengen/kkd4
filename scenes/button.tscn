@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bi3ll1rtrd7e8"]
 
-[ext_resource type="FontFile" uid="uid://c7o2pcusg538i" path="res://themes/leaguespartan-bold.ttf" id="1_mi6dp"]
+[ext_resource type="FontFile" uid="uid://c7o2pcusg538i" path="res://assets/leaguespartan-bold.ttf" id="1_mi6dp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mi6dp"]
 content_margin_left = 4.0
@@ -50,7 +50,7 @@ z_as_relative = false
 custom_minimum_size = Vector2(0, 100)
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 0.19607843)
+theme_override_colors/font_outline_color = Color(0.1104, 0.16, 0.117013335, 1)
 theme_override_constants/outline_size = 7
 theme_override_fonts/font = ExtResource("1_mi6dp")
 theme_override_font_sizes/font_size = 35
